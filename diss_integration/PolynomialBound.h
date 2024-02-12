@@ -273,6 +273,16 @@ public:
     return ret;
   }
 
+  bool isFarTailContained(const PolynomialBound& p) {
+    if(p.C() == 0 && this->C() != 0)
+        return false;
+    else if(this->C() != 0){
+        if(this->exponent() < p.exponent() || pb1[M].rightBound() > pb2[M].rightBound())
+            return false;
+    }
+    return true;
+  }
+
   static const ScalarType& takePower(int i, ExponentType t);
 
   using ContainerType::begin;

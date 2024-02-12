@@ -33,6 +33,18 @@ int main(){
     T0[14] = 2.96259e-019 * interval(-1, 1);
     T0[15] = 1.30238e-017 * interval(-1, 1);
 
+    // for(int i = m; i < M; ++i) {
+    //     x[i] = T0[i];
+    // }
+
+    // KSDissipativeOperator<M, M> ks {niu, T0};
+    // for(int i = 1; i < M; ++i) {
+    //     auto temp = x;
+    //     temp[i] = temp[i].leftBound();
+    //     auto r = ks.P(temp)[i];
+    //     COUT(r);
+    // }
+
     double h = 0.0005;
     DissipativeIntegrator<m, M, interval, int, IVector, InclRect2Set, interval, KSDissipativeOperator<m, M>, IMaxNorm()> di(h, x, T0, niu); //max norm?
     int i = 0;

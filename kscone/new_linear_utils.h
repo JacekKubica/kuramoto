@@ -1,4 +1,5 @@
 #pragma once
+#include <random>
 #include <exception>
 #include "ConeConditionVerifier.h"
 #include "../kscalk/KSDissipativeOperator.h"
@@ -135,7 +136,6 @@ template <class FType, class VType>
 bool check_isolation(VType &x, const IMatrix &L, const FType &f,
                      int firstStable, const IMatrix &A, const IMatrix Ainv,
                      int end_variable=-1, bool improve=false, bool log=false) {
-    
     if(log) std::cout << "Checking isolations\n" << x << "\n";
     double D = 1.01;
     bool flag = true;
@@ -161,8 +161,6 @@ bool check_isolation(VType &x, const IMatrix &L, const FType &f,
         temp = x;
         temp[i] = temp[i].leftBound();
         vf = A * L * Ainv * temp + A * f(Ainv * temp) * direction;
-        COUT((A * L * Ainv * temp)[i]);
-        COUT((A * f(Ainv * temp) * direction)[i]);
         if(log) {COUT(vf[i]);
             COUT((vf[i] > 0));}
         if(!(vf[i] > 0)) {
@@ -458,6 +456,7 @@ struct Ret {
     interval lognorm, C, s;
     IMatrix A, Ainv;
     IVector target;
+    IVector target_good_coords;
 
     void print() {
         COUT(C);
@@ -465,6 +464,12 @@ struct Ret {
         for(const auto &x: target){
             std::cout << x.mid()  << " + " << (x.rightBound() - x.mid()) * interval(-1, 1) << "\n"; 
         }
+        COUT(target_good_coords);
+        cout << "\n{";
+        for(const auto &x: target_good_coords) {
+            std::cout << "interval(" << x.leftBound() << ", " << x.rightBound() << "),";
+        }
+        cout << "}\n";
         COUT(lognorm);
     }
 };
@@ -496,7 +501,7 @@ void make_eps_positive(IVector &N, const IMatrix &new_linear_part, const FType &
 }
 
 template <int m, int M>
-bool check_far_tail_isolation(const capd::interval &niu, const capd::pdes::PolynomialBound<capd::interval, int, M> &pb) {
+bool check_far_tail_isolation(capd::interval niu, const capd::pdes::PolynomialBound<capd::interval, int, M> &pb) {
     auto zero_pb = pb; for(int i = 0; i < M; ++i) zero_pb[i] = 0; // class interface compatibility
     auto nonlinear = KSDissipativeOperator<M, M>(niu, zero_pb).N(pb.mainModes());
     return (nonlinear.C() / ((M + 1) * (M + 1) * (1 - niu * (M + 1) * (M + 1)))).subsetInterior(pb.C() * interval(-1, 1));

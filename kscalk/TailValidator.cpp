@@ -16,6 +16,7 @@ void TailValidator<m, M, Scalar, Exponent, VectorType, ParamType, DissipativeOpe
 }
 
 
+// TODO T in diss_op should be somehow made const
 template<int m, int M, class Scalar, class Exponent, class VectorType, class ParamType, class DissipativeOperator, class Norm>
 TailValidator<m, M, Scalar, Exponent, VectorType, ParamType, DissipativeOperator, Norm>::TailValidator(const typename Scalar::BoundType h, const VectorType &x, const capd::pdes::PolynomialBound<Scalar, Exponent, M> &T0, const ParamType &p) :
     h(h), T0(T0), diss_op{p, T}, W2(x + Scalar(0, h) * diss_op.P(x)),

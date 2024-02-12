@@ -8,7 +8,7 @@ DissipativeIntegrator<m, M, Scalar, Exponent, VectorType, SetType, ParamType, Di
 template<int m, int M, class Scalar, class Exponent, class VectorType, class SetType, class ParamType, class DissipativeOperator, class Norm>
 bool DissipativeIntegrator<m, M, Scalar, Exponent, VectorType, SetType, ParamType, DissipativeOperator, Norm>::incl_enclosure(){
     try{
-        tv.get_W2() = tv.get_diff_inclusion_cw_solver().diffInclusionEnclosure(tv.get_h(), x);
+        tv.get_W2() = tv.get_diff_inclusion_cw_solver().diffInclusionEnclosure(tv.get_h(), x); // TODO set_W2?
     } catch(capd::dynsys::SolverException<VectorType> &e){
         return false;
     }
@@ -26,7 +26,7 @@ bool DissipativeIntegrator<m, M, Scalar, Exponent, VectorType, SetType, ParamTyp
         tv.get_T() = T_initial;
 
         if(dcount) { tv.decpower(dcount); }
-        if(tv.validate_far_tail(true)){ 
+        if(tv.validate_far_tail(true)){ // TODO should we update here or not? true yes false nope
             tv.validate_tail(true);
             for(int i = 0; !validated && i < max_iter; ++i){
                 if(incl_enclosure()){

@@ -4,7 +4,7 @@
 #include "DiffInclusionDiss.h"
 
 
-template<int m, int M, class Scalar, class Exponent, class VectorType, class ParamType, class DissipativeOperator, class Norm> 
+template<int m, int M, class Scalar, class Exponent, class VectorType, class ParamType, class DissipativeOperator, class Norm> //TODO shouldn't Norm be always some max norm?
 class TailValidator{
 public:
     TailValidator(const typename Scalar::BoundType h, const VectorType &x, const capd::pdes::PolynomialBound<Scalar, Exponent, M> &T0, const ParamType &p);
@@ -17,7 +17,7 @@ public:
     const DissipativeOperator& get_diss_op() const { return diss_op; }
     VectorType& get_W2() { return W2; }
     capd::diffIncl::DiffInclusionDiss<capd::IMultiMap, DissipativeOperator, m>& get_diff_inclusion_cw_solver(){
-        return diff_inclusion_cw_solver; } 
+        return diff_inclusion_cw_solver; } //TODO make more generic
     void reset(const capd::pdes::PolynomialBound<Scalar, Exponent, M> &new_T0, const VectorType &x, const VectorType &W2);
     void decpower(int dec) { T.C() /= take_power(M + 1, dec); T.exponent() -= dec; set_N_b_and_g(); }
     void print() {
@@ -63,8 +63,8 @@ public:
     bool validated, far_tail_validated;
     std::vector<bool> kvalidated;
     DissipativeOperator diss_op;
-    capd::diffIncl::DiffInclusionDiss<capd::IMultiMap, DissipativeOperator, m> diff_inclusion_cw_solver;
-    const double DG = 0.1, D2 = 1.01; 
+    capd::diffIncl::DiffInclusionDiss<capd::IMultiMap, DissipativeOperator, m> diff_inclusion_cw_solver; //TODO make generic
+    const double DG = 0.1, D2 = 1.01; // TODO consider static
 
     Scalar eval_g(int i) const;
     static void inflate(Scalar &x, typename Scalar::BoundType c);

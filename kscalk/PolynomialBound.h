@@ -5,7 +5,6 @@
 /// @file PolynomialBound.h
 ///
 /// @author Daniel Wilczak
-/// some bugfixes by Jacek Kubica
 /////////////////////////////////////////////////////////////////////////////
 
 // Copyright (C) 2008 by the CAPD Group.
@@ -223,7 +222,7 @@ public:
   explicit PolynomialBound(int a_dim);
   PolynomialBound(int a_dim, bool);
   PolynomialBound(void) {}
-
+  // TODO do we even need this?
   PolynomialBound(const PolynomialBound& p) : ContainerType(p), m_C(p.m_C), m_exponent(p.m_exponent){}
 
   PolynomialBound(int a_dim, const ScalarType& a_C, Exponent a_alpha);

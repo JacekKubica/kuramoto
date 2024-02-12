@@ -5,7 +5,6 @@
 /// @file PolynomialBound.hpp
 ///
 /// @author Daniel Wilczak
-/// few bugfixes Jacek Kubica
 /////////////////////////////////////////////////////////////////////////////
 
 // Copyright (C) 2008 by the CAPD Group.

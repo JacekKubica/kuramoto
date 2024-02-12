@@ -26,7 +26,7 @@ public:
     capd::IMultiMap& perturbated() { return mm; }
     void verify_step(const capd::interval &h, int sb, int sT0) const {
         if(-4 * h * niu * take_power(M + 1, 4) + 2 * h * take_power(M + 1, 2) + sb - sT0 > 0 ||
-           4 * niu * take_power(M + 1, 2) < 1) { throw std::runtime_error("step not verified"); }
+           4 * niu * take_power(M + 1, 2) < 1) { throw std::runtime_error("step not verified"); } // TODO valid error here
     }
 // private:
     capd::interval niu;

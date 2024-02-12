@@ -1,3 +1,6 @@
+
+// TODO should we take right bounds for all those constants?
+
 // D_1(k<2M) = \max \set{(k + 1)^(s - 1) \abs{FS(k)} \mid M \leq k < 2M}
 template <int m, int M>
 capd::interval KSDissipativeOperator<m, M>::D1ksmall(const capd::pdes::PolynomialBound<capd::interval, int, M> &pb) const{
@@ -96,7 +99,7 @@ capd::interval KSDissipativeOperator<m, M>::IS(int k, const capd::pdes::Polynomi
         return res;
     }
     //IS(k) \subset \frac{C}{(k + 1)^{s - 1} (M + 1)} (\frac{C}{(M + 1)^{s - 1} (s - 1)} + \sum_{n = 0}^{M - 1} \abs{a_n}) \interval{-1, 1}
-    if(k >= M){
+    if(k >= M){ // TODO probably no need for this one
         res = D2(pb);
         res /= take_power(k + 1, s - 1);
         res *= capd::interval(-1, 1);
@@ -138,7 +141,7 @@ capd::pdes::PolynomialBound<capd::interval, int, M> KSDissipativeOperator<m, M>:
         return res;
     }
 
-    res.C() = capd::max(3 * D1ksmall(T0) * (2 * M + 1) / (take_power(2, T0.exponent() + 1) * A), 1.01 * T0.C()); 
+    res.C() = capd::max(3 * D1ksmall(T0) * (2 * M + 1) / (take_power(2, T0.exponent() + 1) * A), 1.01 * T0.C()); // TODO idk if this 1.01 should be here
     int s_max = 1;
     while((M + 1) * (M + 1) * (2 * M + 1) * (niu - 1 / ((M + 1) * (M + 1))) / A >= take_power(2, s_max + 1) && s_max < T0.exponent()) ++s_max;
     res.exponent() = s_max;
@@ -148,7 +151,7 @@ capd::pdes::PolynomialBound<capd::interval, int, M> KSDissipativeOperator<m, M>:
 
 template <int m, int M>
 capd::IVector KSDissipativeOperator<m, M>::P(const capd::IVector &x) const{
-    capd::IVector res(m); for(int i = 0; i < m; ++i) res[i] = 0;
+    capd::IVector res(m); for(int i = 0; i < m; ++i) res[i] = 0; //TODO is it zeroed at cstr?
     for(int i = 0; i < m; ++i){
         int k = i + 1;
         res[i] = k * k * (1 - niu * k * k) * x[i];

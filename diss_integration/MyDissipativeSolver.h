@@ -23,15 +23,29 @@ private:
         w += temp;
     }
 
+
+    void improve_isolations(size_type firstDiss,
+                            VectorType &isolationBoundary) const {
+        auto N = vf.evalNonlinearPlusPerturb(isolationBoundary);
+        auto lambdas = vf.diagonalCoefficients();
+        for (int i = firstDiss; i < isolationBoundary.dimension(); ++i) {
+            isolationBoundary[i] = N[i] / (-lambdas[i]);
+        }
+    }
+
+
     // TODO outside of class
     void computeBounds(size_type firstDiss, ScalarType time,
                        const VectorType &initial, const VectorType &enclosureCandidate,
                        VectorType &isolationBoundary, VectorType &solutionBound) const { // results 
 
-        auto N = vf.getNonlinear()(enclosureCandidate);
+        auto N = vf.evalNonlinearPlusPerturb(enclosureCandidate) + vf.evalLinearNondiagonal(enclosureCandidate);
         auto lambdas = vf.diagonalCoefficients();
+        COUT(N);
         for (int i = firstDiss; i < initial.dimension(); ++i) {
-            isolationBoundary[i] = N[i] / (-lambdas[i]);
+            isolationBoundary[i].setRightBound((N[i].rightBound() / (-lambdas[i])).rightBound());
+            isolationBoundary[i].setLeftBound((N[i].leftBound() / (-lambdas[i])).leftBound());
+
             solutionBound[i] = 
                 ScalarType(
                     ((initial[i].leftBound() - isolationBoundary[i].leftBound()) 
@@ -40,6 +54,7 @@ private:
                      * exp(lambdas[i] * time) + isolationBoundary[i].rightBound()).rightBound());
         }
     }
+
 
     void tryDissipativeEnclosure(size_type firstDiss, const std::vector<bool> &validated, 
                                  const VectorType &initial,
@@ -62,7 +77,8 @@ private:
             inflate(enclosureCandidate[i]);
         }
     }
-    
+
+
     void checkDissEnclosure(size_type firstDiss, 
                             const VectorType &initial, const VectorType &enclosureCandidate, 
                             const VectorType &isolationBoundary, const VectorType &solutionBound,
@@ -82,6 +98,7 @@ private:
         }
     }
     
+
     void tryEncloseNondiss(size_type firstDiss, ScalarType time,
                            const VectorType &initial,
                            VectorType &enclosureCandidate, std::vector<bool> &validated) const { // results
@@ -94,12 +111,13 @@ private:
                 inflate(enclosureCandidate[i]);
             }
             else {
-				# TODO is it okay?
+				// TODO is it okay?
 				enclosureCandidate[i] = y;
                 validated[i] = true;
 			}
         }
     }
+
 
     void refine(size_type firstDiss,
                 const VectorType &initial, const VectorType &isolationBoundary, const VectorType &solutionBound,
@@ -116,8 +134,60 @@ private:
         }
     }
 
+    bool validate_far_tail(const VectorType &initial, const VectorType &isolationBoundary,
+                           const VectorType &enclosureCandidate) {
+        if(!initial.farTailIncludedIn(enclosureCandidate)) { return false; }
+        if(isolationBoundary.exponent() > initial.exponent() && initial.c() != 0){
+            int l = static_cast<int>(power(isolationBoundary.c() / initial.c(), scalar(1) / (isolationBoundary.exponent() - initial.exponent())).rightbound());
+            for(int i = m; i <= l; ++i){
+                if(enclosureCandidate[i].rightbound() < eval_g(i).rightbound()){
+                    if(update){
+                        update_tail(true);
+                    }
+                    return false;
+                }
+            }
+            return true;
+        }
+        else{
+            if(isolationBoundary.exponent() == initial.exponent() || initial.c() == 0){
+                if(initial.c() >= isolationBoundary.c())
+                    return true;
+                else if(enclosureCandidate.exponent() <= isolationBoundary.exponent() && enclosureCandidate[m].rightbound() >= b[m].rightbound()){
+                    return true;
+                }
+            }
+            if(isolationBoundary.exponent() < initial.exponent() && initial.c() != 0){
+                int l = static_cast<int>(power(initial.c() / isolationBoundary.c(), 1 / (initial.exponent() - isolationBoundary.exponent())).rightbound());
+                auto p = std::max(l, m);
+                if(enclosureCandidate.exponent() <= isolationBoundary.exponent() && enclosureCandidate[p].rightbound() >= b[p].rightbound())
+                    return true;
+            }
+        }
+        return false;
+    }
+
+void update_tail(bool far_tail_validated, // decides course of action
+                 const VectorType &initial,
+                 VectorType &enclosureCandidate // return
+                 ){
+
+    if(far_tail_validated && check_far_tail_inclusion(b, initial) && initial.C() != 0){
+        enclosureCandidate.C() = initial.C() 
+                                 * take_power(M + 1, enclosureCandidate.exponent() - initial.exponent());
+        return;
+    }
+
+    enclosureCandidate.C() = 
+        capd::max(INFLATION_CONSTANT2 * b.C() 
+                    * take_power(M + 1, enclosureCandidate.exponent() - isolationBoundary.exponent()),
+                  initial.C() * take_power(M + 1, enclosureCandidate.exponent() - initial.exponent()));
+}
+
+
     const double RESERVE_CONSTANT = 0.01; // publ DG
     const double INFLATION_CONSTANT = 1.0001; // publ D2
+    const double INFLATION_CONSTANT2 = 1.01 // publ also D2
     const double DISSIPATION_LIMIT = -0.01; 
     const double MAX_REFINMENT = 5;
 };
@@ -125,7 +195,7 @@ private:
 
 template <class MapType>
 typename MyDissipativeSolver<MapType>::VectorType MyDissipativeSolver<MapType>::enclosure(const ScalarType &t, const VectorType &initial) const {
-    auto enclosureCandidate = initial; 
+    auto enclosureCandidate = initial;
     for(int i = 0; i < initial.dimension(); ++i) 
         enclosureCandidate[i] += capd::TypeTraits<ScalarType>::epsilon() * capd::interval(-1, 1); // for point data
     
@@ -149,7 +219,10 @@ typename MyDissipativeSolver<MapType>::VectorType MyDissipativeSolver<MapType>::
         tryEncloseNondiss(firstDiss, t, initial, enclosureCandidate, validated);
         computeBounds(firstDiss, t, initial, enclosureCandidate, isolationBoundary, solutionBound);
         checkDissEnclosure(firstDiss, initial, enclosureCandidate, isolationBoundary, solutionBound, validated);
-        allValidated = std::all_of(validated.begin(), validated.end(), [](bool v){return v;});
+        tryEncloseTail();
+        bool far_tail_validated = validate_far_tail(initial, isolationBoundary, enclosureCandidate);
+        update_tail(far_tail_validated, initial, enclosureCandidate)
+        allValidated = std::all_of(validated.begin(), validated.end(), [](bool v){return v;}) && far_tail_validated;
         if(allValidated) {
             refine(firstDiss, initial, isolationBoundary, solutionBound, enclosureCandidate);
         } else {
@@ -160,7 +233,6 @@ typename MyDissipativeSolver<MapType>::VectorType MyDissipativeSolver<MapType>::
 		computeBounds(firstDiss, t, initial, enclosureCandidate, isolationBoundary, solutionBound);
         refine(firstDiss, initial, isolationBoundary, solutionBound, enclosureCandidate);
     }
-    COUT(isolationBoundary);
-    return isolationBoundary;
+
     return enclosureCandidate;
 }

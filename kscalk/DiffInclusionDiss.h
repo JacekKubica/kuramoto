@@ -1,7 +1,7 @@
 #ifndef _CAPD_DIFFINCL_DIFFINCLUSIONDISS_H_
 #define _CAPD_DIFFINCL_DIFFINCLUSIONDISS_H_
 
-#include "capd/capdlib.h"
+#include "DiffInclusionCW.h"
 #include <vector>
 #include <algorithm>
 #include <iomanip>
@@ -57,7 +57,8 @@ public:
     }
 
     VectorType diffInclusionEnclosure(const ScalarType &time, const VectorType &x) override {
-        auto vf = BaseClass::getVectorField().getVectorField();
+        auto vf = BaseClass::getVectorField();
+        // auto vf = BaseClass::getVectorField().getVectorField(); <- it was vf without perturbation
         z = x;
         for(int i = 0; i < m; ++i) z[i] += capd::TypeTraits<ScalarType>::epsilon() * capd::interval(-1, 1); // for point data
         int first_diss = 0;
@@ -77,7 +78,7 @@ public:
         bool validated = false;
         int steps = 0;
 
-        while(!validated){
+        while(!validated){ //TODO some exception when we cannot validate
             ++steps;
             auto vfz = vf(z);
             for(int i = 0; i < first_diss; ++i){
@@ -106,6 +107,7 @@ public:
             validated = std::all_of(kvalidated.begin(), kvalidated.end(), [](bool v){return v;});
 
             if(validated){
+                // TODO refine nondiss
                 for(int i = first_diss; i < m; ++i){
                     if(b[i].rightBound() <= x[i].rightBound())
                         z[i].setRightBound(x[i].rightBound());
