@@ -273,6 +273,10 @@ public:
     return ret;
   }
 
+  void setMainModes(IVector &v) {
+    
+  }
+
   bool isFarTailContained(const PolynomialBound& p) {
     if(p.C() == 0 && this->C() != 0)
         return false;

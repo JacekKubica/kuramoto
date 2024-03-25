@@ -68,8 +68,6 @@ int main() {
     // const capd::interval niu = capd::interval(99) / 100;
     const capd::interval niu = capd::interval(75) / 100;
     
-    
-
     capd::IVector N(M);
     capd::IVector N_(m);
     // N[0] = N_[0] = capd::interval(-0.0482822, 0.0482822);
@@ -78,55 +76,49 @@ int main() {
     
     // TODO what happens when pb changes?
     KSExtendedMultiMapContainer<m, M> f(niu, pb, true);
-    COUT(findIsolation(f, N_, 1));
-
-    N_ = {capd::interval(-7.500000e-002, 7.500000e-002),    capd::interval(-1.406709e-003, 4.587986e-007),    capd::interval(-1.223300e-005, 1.223300e-005),    capd::interval(-8.667864e-008, 4.170524e-008),    capd::interval(-5.342963e-010, 5.342963e-010),    capd::interval(-3.036260e-012, 1.265905e-012),    capd::interval(-1.630102e-014, 1.630102e-014),    capd::interval(-8.397013e-017, 5.074158e-017)};
-    for(int i = 0; i < m; ++i) {
-        COUT(i);
-        auto y = N_;
-        y[i] = N_[i].leftBound();
-        COUT((f.getLinear()*y + f.getNonlinear()(y))[i]);
-        COUT((f.getLinear()*y)[i]);
-        COUT(-f.getNonlinear()(y)[i] / f.diagonalCoefficients()[i]);
-        COUT(f(y)[i]);
-        COUT("=");
-        y[i] = N_[i].rightBound();
-        COUT((f.getLinear()*y + f.getNonlinear()(y))[i]);
-        COUT((f.getLinear()*y)[i]);
-        COUT(-f.getNonlinear()(y)[i] / f.diagonalCoefficients()[i]);
-        COUT(f(y)[i]);
-    }
-
-    // MyDissipativeSolver<KSExtendedMultiMapContainer<m, M>> mds(f);
-    // auto x = mds.enclosure(1e-10, N_);
-    // // IVector x(m);
-    // // x[0] = N_[0];
-    // // x[1] = 7e-4 * capd::interval(-1, 1);
-    // // x[2] = 1.2e-5 * capd::interval(-1, 1);
-    // // x[1] = 6e-8 * capd::interval(-1, 1);
+    
+    MyDissipativeSolver<KSExtendedMultiMapContainer<m, M>> mds(f);
+    auto x = mds.enclosure(1e-10, pb);
+    // IVector x(m);
+    // x[0] = N_[0];
+    // x[1] = 7e-4 * capd::interval(-1, 1);
+    // x[2] = 1.2e-5 * capd::interval(-1, 1);
+    // x[1] = 6e-8 * capd::interval(-1, 1);
     // x[0] = capd::interval(-7.500000e-002,7.500000e-002);    x[1] = capd::interval(-1.406709e-003,4.587986e-007);    x[2] = capd::interval(-1.223300e-005,1.223300e-005);    x[3] = capd::interval(-8.667864e-008,4.170524e-008);    x[4] = capd::interval(-5.342963e-010,5.342963e-010);    x[5] = capd::interval(-3.036260e-012,1.265905e-012);    x[6] = capd::interval(-1.630102e-014,1.630102e-014);    x[7] = capd::interval(-8.397013e-017,5.074158e-017);
 
-    // auto f_ = capd::IMap(node_no_params, m, m, 1); f_.setParameter(0, niu);
+    auto f_ = capd::IMap(node_no_params, m, m, 1); f_.setParameter(0, niu);
     
-    // for(int i = 0; i < m; ++i) {
-    //     COUT(i);
-    //     auto y = x;
-    //     y[i] = x[i].rightBound();
-    //     COUT(f_(y)[i]);
-    //     COUT(f(y)[i]);
-    //     y[i] = x[i].leftBound();
-    //     COUT(f_(y)[i]);
-    //     COUT(f(y)[i]);
+    for(int i = 0; i < m; ++i) {
+        COUT(i);
+        auto y = x;
+        y[i] = x[i].rightBound();
+        COUT(f_(y)[i]);
+        COUT(f(y)[i]);
+        y[i] = x[i].leftBound();
+        COUT(f_(y)[i]);
+        COUT(f(y)[i]);
         
-    // }
-    // COUT(x);
-
-
-
- 
+    }
+    COUT(x);
 }
 
-
+// COUT(findIsolation(f, N_, 1));
+//     N_ = {capd::interval(-7.500000e-002, 7.500000e-002),    capd::interval(-1.406709e-003, 4.587986e-007),    capd::interval(-1.223300e-005, 1.223300e-005),    capd::interval(-8.667864e-008, 4.170524e-008),    capd::interval(-5.342963e-010, 5.342963e-010),    capd::interval(-3.036260e-012, 1.265905e-012),    capd::interval(-1.630102e-014, 1.630102e-014),    capd::interval(-8.397013e-017, 5.074158e-017)};
+//     for(int i = 0; i < m; ++i) {
+//         COUT(i);
+//         auto y = N_;
+//         y[i] = N_[i].leftBound();
+//         COUT((f.getLinear()*y + f.getNonlinear()(y))[i]);
+//         COUT((f.getLinear()*y)[i]);
+//         COUT(-f.getNonlinear()(y)[i] / f.diagonalCoefficients()[i]);
+//         COUT(f(y)[i]);
+//         COUT("=");
+//         y[i] = N_[i].rightBound();
+//         COUT((f.getLinear()*y + f.getNonlinear()(y))[i]);
+//         COUT((f.getLinear()*y)[i]);
+//         COUT(-f.getNonlinear()(y)[i] / f.diagonalCoefficients()[i]);
+//         COUT(f(y)[i]);
+//     }
 
 
 // simple test to understand a bit about jets
