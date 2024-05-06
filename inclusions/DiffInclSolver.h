@@ -49,10 +49,22 @@ public:
      // o_phi dla selektora, o_jacPhi dla selektora, o_rem dla selektora + wpływ inkluzji
     /* data */
     
-    virtual VectorType perturbationsEffects(ScalarType currentTime,
-                                            const VectorType &initial) = 0;
+    void encloseC0MapExternal(
+        const ScalarType& t,  
+        const VectorType& x0, 
+        const VectorType& x,  
+        VectorType& o_phi,    
+        VectorType& o_rem,    
+        const VectorType& enc,    
+        MatrixType& o_jacPhi  
+    ); 
 
-    void setStep(ScalarType &h) {
+    virtual VectorType perturbationsEffects(ScalarType currentTime,
+                                            const VectorType &initial,
+                                            const VectorType &W1,
+                                            const VectorType &W2) = 0;
+
+    void setStep(BoundType h) {
         selectorSolver.setStep(h);
     }
     ScalarType getStep() const {
@@ -82,10 +94,10 @@ public:
         return selectorSolver.getRelativeTolerance();
     }
 protected:
+    DiffInclVectorField vf;
     capd::dynsys::OdeSolver<MapType,
                             capd::dynsys::ILastTermsStepControl,
                             capd::dynsys::FirstOrderEnclosure> selectorSolver;
-    DiffInclVectorField vf;
 };
 
 #include "DiffInclSolver.cpp"

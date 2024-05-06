@@ -3,16 +3,12 @@
 
 DiffInclSolverCW::VectorType DiffInclSolverCW::perturbationsEffects(
                                           ScalarType currentTime,
-                                          const VectorType &initial) {
+                                          const VectorType &initial,
+                                          const VectorType &W1,
+                                          const VectorType &W2) {
                    
-    // W_1 = o_enc
-    VectorType W_2 = EnclosurePolicy::enclosure(*this, currentTime, initial);
-
-    MatrixType J = vf.derivative(currentTime, W_2);
-    VectorType delta = vf.getPerturbation()(currentTime, W_2); // TODO not W2 here 
-    // we do not need selector enclosure after calculating perturbations,
-    // so we set the full system enclosure here
-    // o_enc = W_2;
+    MatrixType J = vf.derivative(currentTime, W2);
+    VectorType delta = vf.getPerturbation()(currentTime, W1); 
 
     VectorType C = rightVector(delta);
 

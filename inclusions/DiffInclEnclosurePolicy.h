@@ -12,17 +12,16 @@ public:
     typedef capd::IMap MapType;
 
 private:
-    static void inflate(Scalar &x) {
-        // TODO performance, numerics?
-        x += Scalar(-INFL_CONST, INFL_CONST) * (left(x) - right(x)) / 2;
-    }
+    //static void inflate(Scalar &x) {
+        //// TODO performance, numerics?
+        //x += Scalar(-INFL_CONST, INFL_CONST) * (left(x) - right(x)) / 2;
+    //}
 public:
-    // TODO getStep or argument?
     static VectorType enclosure(DiffInclSolver &ds,
                           ScalarType currentTime,
                           const VectorType &X) {
         
-        
+       return capd::dynsys::FirstOrderEnclosure::enclosure(ds.getVectorField(), currentTime, X, ds.getStep()); 
     
     }
     // TODO getStep or argument?

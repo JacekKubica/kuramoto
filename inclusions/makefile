@@ -1,6 +1,6 @@
 .RECIPEPREFIX +=
 # a list of all the programs in your project
-PROGS = main weird_vf inclusions_test
+PROGS = main weird_vf inclusions_test inclusions_test0
 
 # a list of all your units to be linked with your programs (space separated)
 # OTHERS = ConeConditionVerifier Estimations LogNorm

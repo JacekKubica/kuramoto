@@ -13,7 +13,9 @@ public:
     
     DiffInclSolverCW(const DiffInclVectorField &vf) : MDiffInclSolver(vf) {}
     virtual VectorType perturbationsEffects(ScalarType currentTime,
-                                            const VectorType &initial) override;
+                                            const VectorType &initial,
+                                            const VectorType &W1,
+                                            const VectorType &W2) override;
 };
 
 #include "DiffInclSolverCW.cpp"
