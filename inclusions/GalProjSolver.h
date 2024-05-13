@@ -1,4 +1,8 @@
-#include "DiffInclSolver.h"
+#pragma once
+#include "DiffInclSolverCW.h"
+#include "GalProjVectorField.h"
+#include "GalProjEnclosure.h"
+
 
 typedef capd::IMatrix MatrixTypeOfDiffInclSolver;
 class GalProjSolver : public capd::dynsys::DynSys<MatrixTypeOfDiffInclSolver> {
@@ -8,7 +12,12 @@ public:
     typedef ScalarType::BoundType BoundType;
     typedef capd::IVector VectorType;
     typedef capd::IMap MapType;
-    typedef DiffInclusionEnclosurePolicy<MDiffInclSolver> EnclosurePolicy;
+    typedef DissipativeEnclosure<GalProjSolver> EnclosurePolicy;
+    typedef GalProjVectorField VectorFieldType;
+    typedef DiffInclSolverCW InclusionSolverType;
+
+    GalProjSolver(VectorFieldType vf) : vf(vf), baseSolver({vf.getSelector(), vf.getPerturbation()}) {}
+
     void encloseC0Map(
         const ScalarType& t,  //< @param[in] current time of ODE
         const VectorType& x0, //< @param[in] an internal point of x, usually center of x
@@ -18,8 +27,19 @@ public:
         VectorType& o_enc,    //< @param[out] enclosure of all trajectories starting from x over the time interval (time step of numerical method)
         MatrixType& o_jacPhi  //< @param[out] bound for derivative Dphi(x)
     ) override {
-        VectorType o_enc = EnclosurePolicy::enclosure(*this, t, x);
+        if(!full_enclosure_ptr) {
+            throw std::logic_error("Full enclosure was not calculated yet");
+        }
+        for(size_t i = 0; i < o_enc.dimension(); ++i) {
+            o_enc[i] = this->full_enclosure[i];
+        }
         baseSolver.encloseC0MapExternal(t, x0, x, o_phi, o_rem, o_enc, o_jacPhi);
+    }
+
+    void calculateFullEnclosure(const ScalarType &t, const VectorType &x) {
+        this->full_enclosure = EnclosurePolicy::enclosure(*this, t, x);
+        // TODO set perturbations
+        this->full_enclosure_ptr = &this->full_enclosure;
     }
 
     // Legacy reasons
@@ -40,5 +60,8 @@ public:
         return VectorType();
     }
 private:
-    MDiffInclSolver &baseSolver;
+    VectorFieldType vf;
+    InclusionSolverType baseSolver;
+    VectorType full_enclosure;
+    VectorType *full_enclosure_ptr = nullptr;
 };

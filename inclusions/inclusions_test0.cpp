@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include "capd/capdlib.h"
 #include "DiffInclSolverCW.h"
 using namespace capd;
@@ -39,7 +40,7 @@ void RosslerExample() {
   solver.setStep(timeStep);
   C0Rect2Set set(x1);
   // We do the numberOfSets steps
-  int numberOfSteps = 1000;
+  int numberOfSteps = 10000;
   for(int i = 0; i < numberOfSteps; ++i) {
     lnSet.move(lnDiffInclSolver);
     cwSet.move(cwDiffInclSolver);
@@ -57,6 +58,11 @@ void RosslerExample() {
       << "\n  diam = " << maxDiam(cwResult) << "\n";
   std::cout << "\n\n My method : \n " << myResult
       << "\n  diam = " << maxDiam(myResult) << "\n";
+  
+  IVector inter;
+  assert(intersection(cwResult, myResult, inter));
+  COUT(inter);
+  COUT(maxDiam(inter));
 }
  
 int main() {

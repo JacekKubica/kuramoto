@@ -139,7 +139,8 @@
  /usr/include/c++/9/bits/locale_facets.tcc \
  /usr/include/c++/9/bits/basic_ios.tcc \
  /usr/include/c++/9/bits/ostream.tcc /usr/include/c++/9/istream \
- /usr/include/c++/9/bits/istream.tcc /home/mj/capd/include/capd/capdlib.h \
+ /usr/include/c++/9/bits/istream.tcc /usr/include/c++/9/cassert \
+ /usr/include/assert.h /home/mj/capd/include/capd/capdlib.h \
  /home/mj/capd/include/capd/intervals/lib.h \
  /home/mj/capd/include/capd/intervals/minmax_interval.h \
  /home/mj/capd/include/capd/auxil/minmax.h \
@@ -464,7 +465,6 @@
  /home/mj/capd/include/capd/poincare/BasicPoincareMap_inline.h \
  /home/mj/capd/include/capd/poincare/BasicPoincareMap_template.h \
  /home/mj/capd/include/capd/poincare/PoincareMap_templateMembers.h \
- /usr/include/c++/9/cassert /usr/include/assert.h \
  /home/mj/capd/include/capd/poincare/BasicPoincareMap.hpp \
  /home/mj/capd/include/capd/poincare/BasicPoincareMap_operator.hpp \
  /home/mj/capd/include/capd/poincare/PoincareMap_templateOperator.h \
@@ -852,6 +852,10 @@
 /usr/include/c++/9/istream:
 
 /usr/include/c++/9/bits/istream.tcc:
+
+/usr/include/c++/9/cassert:
+
+/usr/include/assert.h:
 
 /home/mj/capd/include/capd/capdlib.h:
 
@@ -1558,10 +1562,6 @@
 /home/mj/capd/include/capd/poincare/BasicPoincareMap_template.h:
 
 /home/mj/capd/include/capd/poincare/PoincareMap_templateMembers.h:
-
-/usr/include/c++/9/cassert:
-
-/usr/include/assert.h:
 
 /home/mj/capd/include/capd/poincare/BasicPoincareMap.hpp:
 
