@@ -52,7 +52,6 @@ Vector enclose(Scalar t, const Vector &X, VectorField vf) {
 
 
         // dissipative enclosure
-
         Vector N = vf.nonlinear(Z);
         for(size_t i = firstDiss; i < X.dimension(); ++i) {
             Scalar b = -N[i] / vf.linear[i];

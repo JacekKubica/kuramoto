@@ -2,7 +2,6 @@
 #include "capd/capdlib.h"
 
 
-template <class DiffInclSolver>
 class DiffInclusionEnclosurePolicy {
 public:
     typedef capd::interval ScalarType;
@@ -10,6 +9,7 @@ public:
     typedef capd::IMatrix MatrixType;
     typedef capd::IMap MapType;
 
+    template <class DiffInclSolver>
     static VectorType enclosure(DiffInclSolver &ds,
                           ScalarType currentTime,
                           const VectorType &X) {

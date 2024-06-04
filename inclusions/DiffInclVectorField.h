@@ -14,8 +14,11 @@ public:
 
     DiffInclVectorField(const MapType &selector, const MapType &perturbation) : selector(selector), perturbation(perturbation) {}
 
-    VectorType operator()(ScalarType t, const VectorType &v) {
+    VectorType operator()(ScalarType t, const VectorType &v) const {
         return selector(t, v) + perturbation(t, v);
+    }
+    VectorType mainModesCall(ScalarType t, const VectorType &v) {
+        return (*this)(t, v);
     }
 
     MatrixType derivative(ScalarType t, const VectorType &v) {
