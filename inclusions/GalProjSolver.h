@@ -38,7 +38,7 @@ public:
     }
 
     void calculateFullEnclosure(const ScalarType &t, VectorType &o_x) {
-        this->full_enclosure = EnclosurePolicy::enclosure(*this, t, o_x);
+        this->full_enclosure = EnclosurePolicy::enclosure(*this, t, o_x, baseSolver.getSettedStep());
         this->full_enclosure_ptr = &this->full_enclosure;
         //this->baseSolver.getVectorField().setPerturbation(this->full_enclosure);
         this->baseSolver.getVectorField().setPerturbation(this->full_enclosure);

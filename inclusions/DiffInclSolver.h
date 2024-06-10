@@ -102,7 +102,7 @@ protected:
     VectorField vf;
     capd::dynsys::OdeSolver<MapType,
                             capd::dynsys::ILastTermsStepControl,
-                            capd::dynsys::EnclosurePolicy> selectorSolver;
+                            EnclosurePolicy> selectorSolver;
 private:
     ScalarType settedStep;
 };
