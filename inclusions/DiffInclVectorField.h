@@ -12,7 +12,7 @@ public:
     typedef capd::IMatrix MatrixType;
     typedef capd::IMap MapType;
 
-    DiffInclVectorField(const MapType &selector, const MapType &perturbation) : selector(selector), perturbation(perturbation) {}
+    DiffInclVectorField(MapType &selector, MapType &perturbation) : selector(selector), perturbation(perturbation) {}
 
     VectorType operator()(ScalarType t, const VectorType &v) {
         return selector(t, v) + perturbation(t, v);
@@ -28,6 +28,9 @@ public:
 
     MapType& getSelector() { return selector; }
     MapType& getPerturbation() { return perturbation; }
+    virtual void calcPerturbations(const VectorType &Z) {
+        // default implementation doesn't recalculate perturbations
+    }
 private:
     MapType selector, perturbation;
 };

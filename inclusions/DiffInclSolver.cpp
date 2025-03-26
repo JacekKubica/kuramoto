@@ -16,7 +16,10 @@ void MDiffInclSolver::encloseC0Map(
     VectorType W1(o_enc.dimension());
     selectorSolver.encloseC0Map(t, x0, x, o_phi, o_rem, W1, o_jacPhi);
     o_enc = EnclosurePolicy::enclosure(*this, t, x);
-    o_rem += perturbationsEffects(t, x, W1, o_enc);
+    VectorType effects = perturbationsEffects(t, x, W1, o_enc);
+    for(size_t i = 0; i < effects.dimension(); ++i) {
+        o_rem[i] += effects[i];
+    } 
 }
 
 void MDiffInclSolver::encloseC0MapExternal(
