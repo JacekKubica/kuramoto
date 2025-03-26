@@ -38,8 +38,7 @@ public:
     template <typename Solver>
     static VectorType enclosure(Solver &ds,
                           ScalarType currentTime, 
-                          VectorType &X,
-                          ScalarType t) {
+                          VectorType &X) {
         
         using capd::min;
         using capd::max;
@@ -47,7 +46,7 @@ public:
         
         auto vf = ds.getVectorField();
         // TODO t = from some step control policy
-        // auto t  = ds.getSettedStep();
+        auto t  = ds.getSettedStep();
 
         // TODO better way
         VectorType linear_ = vf.getLinearDiagonal();
@@ -183,44 +182,5 @@ public:
         }
         COUT(Z);
         return Z;
-    }
-
-    template <typename DS>
-    inline static void computeEnclosureAndRemainder(DS& ds, const ScalarType& t, const VectorType& x, VectorType& out_enc, VectorType& out_rem){
-        typedef ScalarType Scalar;
-        const static Scalar I(TypeTraits<Scalar>::zero().leftBound(),TypeTraits<Scalar>::one().rightBound());
-
-        // we compute an enclosure for \varphi([0,timestep],iv)
-        // TODO now our dynsys has no current time
-        // ds.setCurrentTime(t);
-        out_enc = enclosure(ds.getVectorField(),t,x,ds.getStep());
-        ds.computeRemainderCoefficients(t + I*ds.getStep(),out_enc);
-        out_rem =  ds.getRemainderCoefficients()[ds.getOrder()+1]*power(ds.getStep(),ds.getOrder()+1);
-    }
-
-    template <typename DS> 
-    inline static void computeEnclosureAndRemainder(DS& ds, const typename DS::ScalarType& t, const typename DS::VectorType& x, capd::diffAlgebra::C1TimeJet<typename DS::MatrixType>& out_enc, capd::diffAlgebra::C1TimeJet<typename DS::MatrixType>& out_rem){
-        throw std::logic_error("not implemented");
-    }
-
-    template<class DS>
-    inline static void computeEnclosureAndRemainder(DS& ds, const typename DS::ScalarType& t, const typename DS::VectorType& x, capd::diffAlgebra::C2TimeJet<typename DS::MatrixType>& out_enc, capd::diffAlgebra::C2TimeJet<typename DS::MatrixType>& out_rem){
-        throw std::logic_error("not implemented");
-    }
-
-    template <typename Solver>
-    static VectorType enclosure(Solver &ds,
-                          ScalarType currentTime, 
-                          const VectorType &X){
-        auto X_ = X;
-        return enclosure(ds, currentTime, X_, ds.getStep());
-    }
-    template <typename Solver>
-    static VectorType enclosure(Solver &ds,
-                          ScalarType currentTime, 
-                          const VectorType &X,
-                          ScalarType t){
-        auto X_ = X;
-        return enclosure(ds, currentTime, X_, t);
     }
 };

@@ -19,7 +19,7 @@ void MDiffInclSolver<VectorField, EnclosurePolicy>::encloseC0Map(
     selectorSolver.encloseC0Map(t, x0, x, o_phi, o_rem, W1, o_jacPhi);
     // TODO
     VectorType throwaway(x);
-    o_enc = EnclosurePolicy::enclosure(*this, t, throwaway, getSettedStep());
+    o_enc = EnclosurePolicy::enclosure(*this, t, throwaway);
     o_rem += perturbationsEffects(t, x, W1, o_enc);
 }
 
