@@ -6,7 +6,6 @@ class GalProjSet {
 public:
     typedef capd::C0Rect2Set MainModesSetType;
     typedef capd::IVector VectorType;
-    typedef VectorType::ScalarType ScalarType;
 
     GalProjSet(const VectorType &fullVector, const int projectionDimension) 
         : fullVector(fullVector),
@@ -18,25 +17,17 @@ public:
         }
         mainModesSet = MainModesSetType(temp);
     }
-    
-    ScalarType getCurrentTime() {
-        return mainModesSet.getCurrentTime();
-    }
 
     // getCurrentSet
 
     void move(GalProjSolver &solver) {
-        // TODO save all dissipative to fullVector
-        solver.calculateFullEnclosure(mainModesSet.getCurrentTime(), fullVector); // this sets perturbations, moves dissipative modes
+        solver.calculateFullEnclosure(mainModesSet.getCurrentTime(), fullVector);
         mainModesSet.move(solver);
-        auto mainModesVector = VectorType(mainModesSet);
-        for(size_t i = 0; i < mainModesVector.dimension(); ++i) {
-            // TODO intersect on dissipative
-            fullVector[i] = mainModesVector[i];
-        }
+        // TODO moving dissipative modes
+        // TODO a good way to intersect?
     }
 
-public:
+private:
     VectorType fullVector;
     MainModesSetType mainModesSet;
 };

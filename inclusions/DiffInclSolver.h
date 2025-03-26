@@ -10,8 +10,6 @@
 
 // EnclosurePolicy, StepControlPolicy
 typedef capd::IMatrix MatrixTypeOfDiffInclSolver;
-template <typename VectorField=DiffInclVectorField,
-          typename EnclosurePolicy=DiffInclusionEnclosurePolicy>
 class MDiffInclSolver : public capd::dynsys::DynSys<MatrixTypeOfDiffInclSolver> {
 public:
     typedef MatrixTypeOfDiffInclSolver MatrixType;
@@ -19,6 +17,7 @@ public:
     typedef ScalarType::BoundType BoundType;
     typedef capd::IVector VectorType;
     typedef capd::IMap MapType;
+    typedef DiffInclusionEnclosurePolicy<MDiffInclSolver> EnclosurePolicy;
 
     // Legacy reasons
     virtual VectorType Phi(const ScalarType& t, const VectorType &iv) override {
@@ -67,10 +66,6 @@ public:
 
     void setStep(BoundType h) {
         selectorSolver.setStep(h);
-        this->settedStep = h;
-    }
-    ScalarType getSettedStep() const {
-        return settedStep;
     }
     ScalarType getStep() const {
         return selectorSolver.getStep();
@@ -78,10 +73,10 @@ public:
     ScalarType getCurrentTime() const {
         return selectorSolver.getCurrentTime();
     }
-    MDiffInclSolver(const VectorField &vf) : vf(vf),
-                                             selectorSolver(this->vf.getSelector(), 20) {}
+    MDiffInclSolver(const DiffInclVectorField &vf) : vf(vf),
+                                                    selectorSolver(this->vf.getSelector(), 20) {}
 
-    VectorField& getVectorField() { return vf; }
+    DiffInclVectorField& getVectorField() { return vf; }
 
     void setAbsoluteTolerance(BoundType tol) {
         selectorSolver.setAbsoluteTolerance(tol);
@@ -99,12 +94,10 @@ public:
         return selectorSolver.getRelativeTolerance();
     }
 protected:
-    VectorField vf;
+    DiffInclVectorField vf;
     capd::dynsys::OdeSolver<MapType,
                             capd::dynsys::ILastTermsStepControl,
-                            capd::dynsys::EnclosurePolicy> selectorSolver;
-private:
-    ScalarType settedStep;
+                            capd::dynsys::FirstOrderEnclosure> selectorSolver;
 };
 
 #include "DiffInclSolver.cpp"

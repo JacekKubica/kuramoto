@@ -1,18 +1,17 @@
 #pragma once
 #include "DiffInclSolver.h"
 
-template <typename VectorField=DiffInclVectorField,
-          typename EnclosurePolicy=DiffInclusionEnclosurePolicy>
-class DiffInclSolverCW : public MDiffInclSolver<VectorField, EnclosurePolicy>{
+class DiffInclSolverCW : public MDiffInclSolver
+{
 public:
-    using Base = MDiffInclSolver<VectorField, EnclosurePolicy>;
-    typedef typename Base::ScalarType ScalarType;
-    typedef typename Base::VectorType VectorType;
-    typedef typename Base::MatrixType MatrixType;
-    typedef typename Base::MapType MapType;
+    typedef MDiffInclSolver::ScalarType ScalarType;
+    typedef MDiffInclSolver::VectorType VectorType;
+    typedef MDiffInclSolver::MatrixType MatrixType;
+    typedef MDiffInclSolver::MapType MapType;
+    typedef MDiffInclSolver::EnclosurePolicy EnclosurePolicy;
     typedef capd::IMaxNorm Norm;
     
-    DiffInclSolverCW(const VectorField &vf) : Base(vf) {}
+    DiffInclSolverCW(const DiffInclVectorField &vf) : MDiffInclSolver(vf) {}
     virtual VectorType perturbationsEffects(ScalarType currentTime,
                                             const VectorType &initial,
                                             const VectorType &W1,

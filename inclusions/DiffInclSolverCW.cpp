@@ -1,17 +1,14 @@
 #pragma once
 #include "DiffInclSolverCW.h"
 
-template <typename VectorField,
-          typename EnclosurePolicy>
-typename DiffInclSolverCW<VectorField, EnclosurePolicy>::VectorType 
-DiffInclSolverCW<VectorField, EnclosurePolicy>::perturbationsEffects(
+DiffInclSolverCW::VectorType DiffInclSolverCW::perturbationsEffects(
                                           ScalarType currentTime,
                                           const VectorType &initial,
                                           const VectorType &W1,
                                           const VectorType &W2) {
                    
-    MatrixType J = Base::vf.derivative(currentTime, W2);
-    VectorType delta = Base::vf.getPerturbation()(currentTime, W1); 
+    MatrixType J = vf.derivative(currentTime, W2);
+    VectorType delta = vf.getPerturbation()(currentTime, W1); 
 
     VectorType C = rightVector(delta);
 
@@ -22,7 +19,7 @@ DiffInclSolverCW<VectorField, EnclosurePolicy>::perturbationsEffects(
           J[i][j] = (capd::abs(J[i][j])).right();
         else
           J[i][j] = (J[i][j]).right();
-    MatrixType At = Base::getStep() * J;
+    MatrixType At = getStep() * J;
     MatrixType A = MatrixType::Identity(J.numberOfRows());
     MatrixType Sum = A;
     Norm norm; // TODO should we create this norm once somewhere etc?
@@ -41,7 +38,7 @@ DiffInclSolverCW<VectorField, EnclosurePolicy>::perturbationsEffects(
       if(q < 1){
         // remainder = |A| * |At/(N+2)| / (1 - |At/(N+2)|)   (the sum of geometric series from N to infinity)
         ScalarType remainder = right(AnNorm * AtNorm / (n - AtNorm ));
-        if(remainder < Base::getAbsoluteTolerance())  // TODO ok?
+        if(remainder < getAbsoluteTolerance())  // TODO ok?
           break;
       }
     }
@@ -51,7 +48,7 @@ DiffInclSolverCW<VectorField, EnclosurePolicy>::perturbationsEffects(
     for(i=0; i < J.numberOfRows(); ++i)
       for(j = 0; j < J.numberOfColumns(); ++j)
         Sum[i][j] += remainder * ScalarType(-1.0, 1.0);
-    VectorType D = Base::getStep() * (Sum * C);
+    VectorType D = getStep() * (Sum * C);
     VectorType result(D.dimension());
 
     for(i=0; i< D.dimension(); ++i)

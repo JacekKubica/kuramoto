@@ -8,11 +8,10 @@
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/cpu_defines.h \
- /usr/include/c++/9/pstl/pstl_config.h /usr/include/c++/9/ostream \
- /usr/include/c++/9/ios /usr/include/c++/9/iosfwd \
- /usr/include/c++/9/bits/stringfwd.h /usr/include/c++/9/bits/memoryfwd.h \
- /usr/include/c++/9/bits/postypes.h /usr/include/c++/9/cwchar \
- /usr/include/wchar.h \
+ /usr/include/c++/9/ostream /usr/include/c++/9/ios \
+ /usr/include/c++/9/iosfwd /usr/include/c++/9/bits/stringfwd.h \
+ /usr/include/c++/9/bits/memoryfwd.h /usr/include/c++/9/bits/postypes.h \
+ /usr/include/c++/9/cwchar /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
@@ -96,9 +95,7 @@
  /usr/include/c++/9/initializer_list \
  /usr/include/c++/9/bits/basic_string.h \
  /usr/include/c++/9/ext/alloc_traits.h \
- /usr/include/c++/9/bits/alloc_traits.h /usr/include/c++/9/string_view \
- /usr/include/c++/9/limits /usr/include/c++/9/bits/functional_hash.h \
- /usr/include/c++/9/bits/string_view.tcc \
+ /usr/include/c++/9/bits/alloc_traits.h \
  /usr/include/c++/9/ext/string_conversions.h /usr/include/c++/9/cstdlib \
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
@@ -126,6 +123,7 @@
  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+ /usr/include/c++/9/bits/functional_hash.h \
  /usr/include/c++/9/bits/basic_string.tcc \
  /usr/include/c++/9/bits/locale_classes.tcc \
  /usr/include/c++/9/system_error \
@@ -157,40 +155,16 @@
  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
  /usr/include/x86_64-linux-gnu/bits/mathinline.h \
- /usr/include/c++/9/bits/specfun.h /usr/include/c++/9/tr1/gamma.tcc \
- /usr/include/c++/9/tr1/special_function_util.h \
- /usr/include/c++/9/tr1/bessel_function.tcc \
- /usr/include/c++/9/tr1/beta_function.tcc \
- /usr/include/c++/9/tr1/ell_integral.tcc \
- /usr/include/c++/9/tr1/exp_integral.tcc \
- /usr/include/c++/9/tr1/hypergeometric.tcc \
- /usr/include/c++/9/tr1/legendre_function.tcc \
- /usr/include/c++/9/tr1/modified_bessel_func.tcc \
- /usr/include/c++/9/tr1/poly_hermite.tcc \
- /usr/include/c++/9/tr1/poly_laguerre.tcc \
- /usr/include/c++/9/tr1/riemann_zeta.tcc /usr/include/c++/9/functional \
- /usr/include/c++/9/tuple /usr/include/c++/9/utility \
- /usr/include/c++/9/bits/stl_relops.h /usr/include/c++/9/array \
- /usr/include/c++/9/bits/uses_allocator.h \
+ /usr/include/c++/9/functional /usr/include/c++/9/tuple \
+ /usr/include/c++/9/utility /usr/include/c++/9/bits/stl_relops.h \
+ /usr/include/c++/9/array /usr/include/c++/9/bits/uses_allocator.h \
  /usr/include/c++/9/bits/invoke.h /usr/include/c++/9/bits/refwrap.h \
- /usr/include/c++/9/bits/std_function.h /usr/include/c++/9/unordered_map \
- /usr/include/c++/9/ext/aligned_buffer.h \
- /usr/include/c++/9/bits/hashtable.h \
- /usr/include/c++/9/bits/hashtable_policy.h \
- /usr/include/c++/9/bits/node_handle.h /usr/include/c++/9/optional \
- /usr/include/c++/9/bits/enable_special_members.h \
- /usr/include/c++/9/bits/unordered_map.h \
- /usr/include/c++/9/bits/erase_if.h /usr/include/c++/9/vector \
- /usr/include/c++/9/bits/stl_construct.h \
- /usr/include/c++/9/bits/stl_uninitialized.h \
- /usr/include/c++/9/bits/stl_vector.h \
- /usr/include/c++/9/bits/stl_bvector.h /usr/include/c++/9/bits/vector.tcc \
+ /usr/include/c++/9/bits/std_function.h /usr/include/c++/9/algorithm \
  /usr/include/c++/9/bits/stl_algo.h \
  /usr/include/c++/9/bits/algorithmfwd.h \
  /usr/include/c++/9/bits/stl_heap.h /usr/include/c++/9/bits/stl_tempbuf.h \
- /usr/include/c++/9/bits/uniform_int_dist.h /usr/include/c++/9/algorithm \
- /usr/include/c++/9/pstl/glue_algorithm_defs.h \
- /usr/include/c++/9/pstl/execution_defs.h \
+ /usr/include/c++/9/bits/stl_construct.h \
+ /usr/include/c++/9/bits/uniform_int_dist.h /usr/include/c++/9/limits \
  /home/mj/capd/include/fp_traits/fp_traits.hpp \
  /home/mj/capd/include/rounding_control/rounding_control.hpp \
  /home/mj/capd/include/rounding_control/rounding_control_config.hpp \
@@ -205,6 +179,9 @@
  /home/mj/capd/include/fp_traits/fp_traits_sse_const.hpp \
  /home/mj/capd/include/fp_traits/fp_traits_double.hpp \
  /home/mj/capd/include/ieee/primitive.hpp /usr/include/c++/9/stdlib.h \
+ /usr/include/c++/9/vector /usr/include/c++/9/bits/stl_uninitialized.h \
+ /usr/include/c++/9/bits/stl_vector.h \
+ /usr/include/c++/9/bits/stl_bvector.h /usr/include/c++/9/bits/vector.tcc \
  /home/mj/capd/include/fp_traits/fp_traits_base_double.icc \
  /home/mj/capd/include/fp_traits/fp_traits_double_sse_native_switched.icc \
  /home/mj/capd/include/fp_traits/fp_traits_double_sse_native_directed.icc \
@@ -320,8 +297,10 @@
  /home/mj/capd/include/capd/matrixAlgorithms/intMatrixAlgorithms.hpp \
  /home/mj/capd/include/capd/auxil/Logger.h /usr/include/c++/9/iterator \
  /usr/include/c++/9/bits/stream_iterator.h /usr/include/c++/9/set \
- /usr/include/c++/9/bits/stl_tree.h /usr/include/c++/9/bits/stl_set.h \
- /usr/include/c++/9/bits/stl_multiset.h \
+ /usr/include/c++/9/bits/stl_tree.h \
+ /usr/include/c++/9/ext/aligned_buffer.h \
+ /usr/include/c++/9/bits/stl_set.h /usr/include/c++/9/bits/stl_multiset.h \
+ /usr/include/c++/9/bits/erase_if.h \
  /home/mj/capd/include/capd/matrixAlgorithms/Invert.h \
  /home/mj/capd/include/capd/matrixAlgorithms/MatrixOp.h \
  /home/mj/capd/include/capd/matrixAlgorithms/CAPDSmithForm.h \
@@ -544,8 +523,6 @@
 
 /usr/include/x86_64-linux-gnu/c++/9/bits/cpu_defines.h:
 
-/usr/include/c++/9/pstl/pstl_config.h:
-
 /usr/include/c++/9/ostream:
 
 /usr/include/c++/9/ios:
@@ -760,14 +737,6 @@
 
 /usr/include/c++/9/bits/alloc_traits.h:
 
-/usr/include/c++/9/string_view:
-
-/usr/include/c++/9/limits:
-
-/usr/include/c++/9/bits/functional_hash.h:
-
-/usr/include/c++/9/bits/string_view.tcc:
-
 /usr/include/c++/9/ext/string_conversions.h:
 
 /usr/include/c++/9/cstdlib:
@@ -841,6 +810,8 @@
 /usr/include/asm-generic/errno-base.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/c++/9/bits/functional_hash.h:
 
 /usr/include/c++/9/bits/basic_string.tcc:
 
@@ -920,32 +891,6 @@
 
 /usr/include/x86_64-linux-gnu/bits/mathinline.h:
 
-/usr/include/c++/9/bits/specfun.h:
-
-/usr/include/c++/9/tr1/gamma.tcc:
-
-/usr/include/c++/9/tr1/special_function_util.h:
-
-/usr/include/c++/9/tr1/bessel_function.tcc:
-
-/usr/include/c++/9/tr1/beta_function.tcc:
-
-/usr/include/c++/9/tr1/ell_integral.tcc:
-
-/usr/include/c++/9/tr1/exp_integral.tcc:
-
-/usr/include/c++/9/tr1/hypergeometric.tcc:
-
-/usr/include/c++/9/tr1/legendre_function.tcc:
-
-/usr/include/c++/9/tr1/modified_bessel_func.tcc:
-
-/usr/include/c++/9/tr1/poly_hermite.tcc:
-
-/usr/include/c++/9/tr1/poly_laguerre.tcc:
-
-/usr/include/c++/9/tr1/riemann_zeta.tcc:
-
 /usr/include/c++/9/functional:
 
 /usr/include/c++/9/tuple:
@@ -964,35 +909,7 @@
 
 /usr/include/c++/9/bits/std_function.h:
 
-/usr/include/c++/9/unordered_map:
-
-/usr/include/c++/9/ext/aligned_buffer.h:
-
-/usr/include/c++/9/bits/hashtable.h:
-
-/usr/include/c++/9/bits/hashtable_policy.h:
-
-/usr/include/c++/9/bits/node_handle.h:
-
-/usr/include/c++/9/optional:
-
-/usr/include/c++/9/bits/enable_special_members.h:
-
-/usr/include/c++/9/bits/unordered_map.h:
-
-/usr/include/c++/9/bits/erase_if.h:
-
-/usr/include/c++/9/vector:
-
-/usr/include/c++/9/bits/stl_construct.h:
-
-/usr/include/c++/9/bits/stl_uninitialized.h:
-
-/usr/include/c++/9/bits/stl_vector.h:
-
-/usr/include/c++/9/bits/stl_bvector.h:
-
-/usr/include/c++/9/bits/vector.tcc:
+/usr/include/c++/9/algorithm:
 
 /usr/include/c++/9/bits/stl_algo.h:
 
@@ -1002,13 +919,11 @@
 
 /usr/include/c++/9/bits/stl_tempbuf.h:
 
+/usr/include/c++/9/bits/stl_construct.h:
+
 /usr/include/c++/9/bits/uniform_int_dist.h:
 
-/usr/include/c++/9/algorithm:
-
-/usr/include/c++/9/pstl/glue_algorithm_defs.h:
-
-/usr/include/c++/9/pstl/execution_defs.h:
+/usr/include/c++/9/limits:
 
 /home/mj/capd/include/fp_traits/fp_traits.hpp:
 
@@ -1041,6 +956,16 @@
 /home/mj/capd/include/ieee/primitive.hpp:
 
 /usr/include/c++/9/stdlib.h:
+
+/usr/include/c++/9/vector:
+
+/usr/include/c++/9/bits/stl_uninitialized.h:
+
+/usr/include/c++/9/bits/stl_vector.h:
+
+/usr/include/c++/9/bits/stl_bvector.h:
+
+/usr/include/c++/9/bits/vector.tcc:
 
 /home/mj/capd/include/fp_traits/fp_traits_base_double.icc:
 
@@ -1286,9 +1211,13 @@
 
 /usr/include/c++/9/bits/stl_tree.h:
 
+/usr/include/c++/9/ext/aligned_buffer.h:
+
 /usr/include/c++/9/bits/stl_set.h:
 
 /usr/include/c++/9/bits/stl_multiset.h:
+
+/usr/include/c++/9/bits/erase_if.h:
 
 /home/mj/capd/include/capd/matrixAlgorithms/Invert.h:
 

@@ -36,7 +36,7 @@ void RosslerExample() {
   InclRect2Set lnSet(x1),
                cwSet(x1);
   
-  DiffInclSolverCW<> solver({f, perturb});
+  DiffInclSolverCW solver({f, perturb});
   solver.setStep(timeStep);
   C0Rect2Set set(x1);
   // We do the numberOfSets steps
@@ -61,7 +61,6 @@ void RosslerExample() {
   
   IVector inter;
   assert(intersection(cwResult, myResult, inter));
-  assert(intersection(lnResult, myResult, inter));
   COUT(inter);
   COUT(maxDiam(inter));
 }

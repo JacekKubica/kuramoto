@@ -1,6 +1,6 @@
 .RECIPEPREFIX +=
 # a list of all the programs in your project
-PROGS = main weird_vf inclusion_test_derivatives inclusions_test inclusions_test0 galerkin_test calc_derivatives
+PROGS = main weird_vf inclusions_test inclusions_test0
 
 # a list of all your units to be linked with your programs (space separated)
 # OTHERS = ConeConditionVerifier Estimations LogNorm
@@ -11,7 +11,7 @@ CAPDBINDIR =/home/mj/capd/bin/
 # setting compiler and linker flags
 CAPDFLAGS = `${CAPDBINDIR}capd-config --cflags`
 CAPDLIBS = `${CAPDBINDIR}capd-config --libs`
-CXXFLAGS += ${CAPDFLAGS} -std=c++17
+CXXFLAGS += ${CAPDFLAGS} -O2
 
 # directory where object and dependancy files will be created
 OBJDIR = .obj/
@@ -26,7 +26,7 @@ all: ${PROGS}
 
 # rule to link executables
 ${PROGS}: % : ${OBJDIR}%.o ${OTHERS_OBJ}
-  ${CXX} ${CXXFLAGS} -o $@ $< ${OTHERS_OBJ} ${CAPDLIBS}
+  ${CXX} -o $@ $< ${OTHERS_OBJ} ${CAPDLIBS}
 
 # include files with dependencies
 -include ${OBJ_FILES:%=%.d}

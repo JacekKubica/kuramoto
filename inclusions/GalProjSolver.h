@@ -12,11 +12,11 @@ public:
     typedef ScalarType::BoundType BoundType;
     typedef capd::IVector VectorType;
     typedef capd::IMap MapType;
-    typedef DissipativeEnclosure EnclosurePolicy;
+    typedef DissipativeEnclosure<GalProjSolver> EnclosurePolicy;
     typedef GalProjVectorField VectorFieldType;
-    typedef DiffInclSolverCW<GalProjVectorField, EnclosurePolicy> InclusionSolverType;
+    typedef DiffInclSolverCW InclusionSolverType;
 
-    GalProjSolver(VectorFieldType vf) : baseSolver(vf) {}
+    GalProjSolver(VectorFieldType vf) : vf(vf), baseSolver({vf.getSelector(), vf.getPerturbation()}) {}
 
     void encloseC0Map(
         const ScalarType& t,  //< @param[in] current time of ODE
@@ -33,32 +33,13 @@ public:
         for(size_t i = 0; i < o_enc.dimension(); ++i) {
             o_enc[i] = this->full_enclosure[i];
         }
-        //baseSolver.encloseC0Map(t, x0, x, o_phi, o_rem, o_enc, o_jacPhi);
         baseSolver.encloseC0MapExternal(t, x0, x, o_phi, o_rem, o_enc, o_jacPhi);
     }
 
-    void calculateFullEnclosure(const ScalarType &t, VectorType &o_x) {
-        this->full_enclosure = EnclosurePolicy::enclosure(*this, t, o_x);
+    void calculateFullEnclosure(const ScalarType &t, const VectorType &x) {
+        this->full_enclosure = EnclosurePolicy::enclosure(*this, t, x);
+        // TODO set perturbations
         this->full_enclosure_ptr = &this->full_enclosure;
-        //this->baseSolver.getVectorField().setPerturbation(this->full_enclosure);
-        this->baseSolver.getVectorField().setPerturbation(this->full_enclosure);
-    }
-
-    void setStep(BoundType h) {
-        baseSolver.setStep(h);
-        settedStep = h;
-    }
-
-    ScalarType getSettedStep() {
-        return settedStep;
-    }
-
-    ScalarType getStep() {
-        return baseSolver.getStep();
-    }
-
-    VectorFieldType& getVectorField() {
-        return baseSolver.getVectorField();
     }
 
     // Legacy reasons
@@ -79,8 +60,8 @@ public:
         return VectorType();
     }
 private:
+    VectorFieldType vf;
     InclusionSolverType baseSolver;
     VectorType full_enclosure;
     VectorType *full_enclosure_ptr = nullptr;
-    ScalarType settedStep;
 };
